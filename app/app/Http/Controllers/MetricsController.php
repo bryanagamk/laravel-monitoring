@@ -16,42 +16,11 @@ class MetricsController extends Controller
      */
     public function __invoke()
     {
-        // Create registry with in-memory storage
-        $registry = new CollectorRegistry(new InMemory());
+        // Use the shared registry from service provider
+        $registry = app('prometheus');
 
         // Application metrics
         $namespace = 'laravel_app';
-
-        // HTTP Request Counter
-        $requestCounter = $registry->getOrRegisterCounter(
-            $namespace,
-            'http_requests_total',
-            'Total HTTP requests',
-            ['method', 'endpoint', 'status_code']
-        );
-
-        // Response Time Histogram
-        $responseTime = $registry->getOrRegisterHistogram(
-            $namespace,
-            'http_request_duration_seconds',
-            'HTTP request duration in seconds',
-            ['method', 'endpoint']
-        );
-
-        // Active Users Gauge
-        $activeUsers = $registry->getOrRegisterGauge(
-            $namespace,
-            'active_users',
-            'Number of active users'
-        );
-
-        // Database Query Counter
-        $dbQueries = $registry->getOrRegisterCounter(
-            $namespace,
-            'database_queries_total',
-            'Total database queries',
-            ['type']
-        );
 
         // Memory Usage Gauge
         $memoryUsage = $registry->getOrRegisterGauge(
@@ -88,35 +57,6 @@ class MetricsController extends Controller
             ['version']
         );
         $phpVersion->set(1, [PHP_VERSION]);
-
-        // Cache Hit Rate (example)
-        $cacheHits = $registry->getOrRegisterCounter(
-            $namespace,
-            'cache_hits_total',
-            'Total cache hits'
-        );
-
-        $cacheMisses = $registry->getOrRegisterCounter(
-            $namespace,
-            'cache_misses_total',
-            'Total cache misses'
-        );
-
-        // Queue Jobs
-        $queueJobs = $registry->getOrRegisterCounter(
-            $namespace,
-            'queue_jobs_total',
-            'Total queue jobs',
-            ['status', 'queue']
-        );
-
-        // Exception Counter
-        $exceptions = $registry->getOrRegisterCounter(
-            $namespace,
-            'exceptions_total',
-            'Total exceptions thrown',
-            ['type']
-        );
 
         // Render metrics
         $renderer = new RenderTextFormat();

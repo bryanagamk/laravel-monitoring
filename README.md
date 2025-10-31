@@ -37,6 +37,14 @@ Project ini berisi setup Docker untuk Laravel 7.20 dengan **monitoring lengkap**
 - **Queue Jobs** - Job processing metrics (ready to implement)
 - **Exceptions** - Error tracking (ready to implement)
 
+### ✅ Third Party API Monitoring
+- **API Health Status** - Real-time up/down monitoring
+- **Response Time Tracking** - Latency monitoring
+- **Uptime Percentage** - SLA tracking
+- **HTTP Status Codes** - Error detection
+- **Health Check History** - Trend analysis
+- **Automated Checks** - Every 5 minutes via scheduler
+
 ## Stack
 - PHP 7.4-FPM
 - Laravel 7.20
@@ -129,6 +137,7 @@ open http://localhost:3000
 - **[MONITORING.md](MONITORING.md)** - Detailed monitoring documentation
 - **[LOAD-TESTING.md](LOAD-TESTING.md)** - Load testing guide with 6 different approaches
 - **[PRODUCTS-API.md](PRODUCTS-API.md)** - DummyJSON Products API integration guide
+- **[API-MONITORING.md](API-MONITORING.md)** - Third party API health monitoring guide
 - **[README.md](README.md)** - This file (setup & installation)
 
 ## 🔥 Load Testing
@@ -200,6 +209,48 @@ curl http://localhost:8000/api/products/categories | jq
 | POST | `/api/products/sync/{apiId}` | Sync single product |
 
 **Lihat dokumentasi lengkap:** [PRODUCTS-API.md](PRODUCTS-API.md)
+
+## 🔍 Third Party API Monitoring
+
+Project ini sudah dilengkapi dengan **sistem monitoring untuk third-party API** (DummyJSON) yang memantau:
+- ✅ Real-time health status (up/down)
+- ✅ Response time & latency tracking
+- ✅ Uptime percentage calculation
+- ✅ HTTP status code monitoring
+- ✅ Historical trend analysis
+
+### Quick Start:
+
+```bash
+# Check API health manually
+docker-compose exec app php artisan api:check-health
+
+# Comprehensive check (multiple endpoints)
+docker-compose exec app php artisan api:check-health --comprehensive
+
+# View health status via API
+curl http://localhost:8000/api/health/stats | jq
+
+# View in Grafana
+# Dashboard: "Third Party API Monitoring (DummyJSON)"
+open http://localhost:3000
+```
+
+### API Endpoints:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Current health status (cached) |
+| GET | `/api/health/check` | Force fresh health check |
+| GET | `/api/health/comprehensive` | Check multiple endpoints |
+| GET | `/api/health/stats` | Uptime statistics |
+| GET | `/api/health/history` | Health check history |
+
+### Automated Monitoring:
+
+Health checks berjalan otomatis **setiap 5 menit** via Laravel Scheduler untuk memantau kesehatan API secara kontinyu.
+
+**Lihat dokumentasi lengkap:** [API-MONITORING.md](API-MONITORING.md)
 
 ## Perintah Docker Useful
 

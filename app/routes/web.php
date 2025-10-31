@@ -41,3 +41,12 @@ Route::prefix('api/products')->group(function () {
     Route::post('/sync', 'ProductController@sync');
     Route::post('/sync/{apiId}', 'ProductController@syncOne');
 });
+
+// API Health Check Endpoints
+Route::prefix('api/health')->group(function () {
+    Route::get('/', 'ApiHealthController@index');
+    Route::get('/check', 'ApiHealthController@check');
+    Route::get('/comprehensive', 'ApiHealthController@comprehensive');
+    Route::get('/history', 'ApiHealthController@history');
+    Route::get('/stats', 'ApiHealthController@stats');
+});

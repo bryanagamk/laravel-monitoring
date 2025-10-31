@@ -148,6 +148,18 @@ services:
     networks:
       - laravel-network
 
+  # Redis - For Prometheus metrics storage and Laravel cache
+  redis:
+    image: redis:alpine
+    container_name: laravel-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - laravel-network
+
 networks:
   laravel-network:
     driver: bridge
@@ -158,4 +170,6 @@ volumes:
   prometheus-data:
     driver: local
   grafana-data:
+    driver: local
+  redis-data:
     driver: local
