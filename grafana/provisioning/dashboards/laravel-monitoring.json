@@ -927,8 +927,8 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "mysql_global_status_queries",
-          "legendFormat": "MySQL Queries",
+          "expr": "increase(mysql_global_status_queries[5m])",
+          "legendFormat": "Queries (5m)",
           "refId": "A"
         },
         {
