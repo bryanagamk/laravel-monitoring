@@ -1,68 +1,68 @@
 # DummyJSON Products API Integration
 
-Dokumentasi lengkap untuk fitur integrasi DummyJSON Products API yang memungkinkan sinkronisasi dan manajemen data produk dari [DummyJSON API](https://dummyjson.com/docs/products) ke database lokal.
+Complete documentation for the DummyJSON Products API integration that enables synchronization and management of product data from the [DummyJSON API](https://dummyjson.com/docs/products) to the local database.
 
-## 📋 Daftar Isi
+## 📋 Table of Contents
 
 - [Overview](#overview)
 - [Database Schema](#database-schema)
 - [API Endpoints](#api-endpoints)
 - [Artisan Command](#artisan-command)
-- [Arsitektur](#arsitektur)
+- [Architecture](#architecture)
 - [Usage Examples](#usage-examples)
 
 ## 🎯 Overview
 
-Fitur ini mengintegrasikan aplikasi Laravel dengan DummyJSON Products API untuk:
-- ✅ Fetch produk dari external API
-- ✅ Menyimpan ke database lokal
-- ✅ Sync otomatis dengan progress tracking
-- ✅ RESTful API endpoints untuk akses data
-- ✅ Support filtering, pagination, dan search
+This feature integrates the Laravel application with the DummyJSON Products API to:
+- ✅ Fetch products from the external API
+- ✅ Store them into the local database
+- ✅ Automatic sync with progress tracking
+- ✅ Provide RESTful API endpoints for data access
+- ✅ Support filtering, pagination, and search
 
 ## 🗄️ Database Schema
 
-Tabel `products` berisi 24 kolom dengan struktur lengkap:
+The `products` table contains 24 columns with a complete structure:
 
-### Kolom Utama
-- `id` - Primary key (auto increment)
-- `api_id` - Unique ID dari DummyJSON API
-- `title` - Nama produk
-- `description` - Deskripsi produk
-- `category` - Kategori produk
-- `price` - Harga (decimal 8,2)
-- `discount_percentage` - Persentase diskon (decimal 5,2)
-- `rating` - Rating produk (decimal 3,2)
-- `stock` - Jumlah stok
+### Main Column
+- `id` - Primary key (auto-increment)
+- `api_id` - Unique ID from the DummyJSON API
+- `title` - Product name
+- `description` - Product description
+- `category` - Product category
+- `price` - Price (decimal 8.2)
+- `discount_percentage` - Discount percentage (decimal 5.2)
+- `rating` - Product rating (decimal 3.2)
+- `stock` - Stock quantity
 
-### Detail Produk
-- `brand` - Nama brand
+### Product Details
+- `brand` - Brand name
 - `sku` - Stock Keeping Unit
-- `weight` - Berat produk (decimal 8,2)
-- `dimensions` - Dimensi produk (JSON: width, height, depth)
+- `weight` - Product weight (decimal 8.2)
+- `dimensions` - Product dimensions (JSON: width, height, depth)
 
-### Informasi Tambahan
-- `warranty_information` - Info garansi
-- `shipping_information` - Info pengiriman
-- `availability_status` - Status ketersediaan
+### Additional Information
+- `warranty_information` - Warranty information
+- `shipping_information` - Shipping information
+- `availability_status` - Availability status
 
-### Data Customer
-- `reviews` - Review pelanggan (JSON array)
-- `return_policy` - Kebijakan retur
+### Customer Data
+- `reviews` - ​​Customer reviews (JSON array)
+- `return_policy` - Return policy
 - `minimum_order_quantity` - Minimum order
 
 ### Metadata
-- `meta` - Metadata produk (JSON: barcode, qrCode, timestamps)
-- `images` - Array URL gambar (JSON)
-- `thumbnail` - URL thumbnail
-- `tags` - Tags produk (JSON array)
+- `meta` - Product metadata (JSON: barcode, QR code, timestamps)
+- `images` - Image URL array (JSON)
+- `thumbnail` - Thumbnail URL
+- `tags` - Product tags (JSON array)
 
 ### Indexes
 - `api_id` - Unique index
-- `category` - Index untuk filtering
-- `brand` - Index untuk filtering
-- `price` - Index untuk sorting
-- `rating` - Index untuk sorting
+- `category` - Index for filtering
+- `brand` - Index for filtering
+- `price` - Index for sorting
+- `rating` - Index for sorting
 
 ## 🔌 API Endpoints
 
@@ -70,7 +70,7 @@ Tabel `products` berisi 24 kolom dengan struktur lengkap:
 
 **GET** `/api/products`
 
-Mendapatkan daftar produk dengan pagination, filtering, dan search.
+Gets a list of products with pagination, filtering, and search.
 
 **Query Parameters:**
 - `per_page` (default: 15) - Items per page
@@ -79,32 +79,32 @@ Mendapatkan daftar produk dengan pagination, filtering, dan search.
 
 **Response:**
 ```json
-{
-  "current_page": 1,
-  "data": [
-    {
-      "id": 1,
-      "api_id": 1,
-      "title": "Essence Mascara Lash Princess",
-      "description": "...",
-      "category": "beauty",
-      "price": "9.99",
-      "discount_percentage": "7.17",
-      "rating": "4.94",
-      "stock": 5,
-      "brand": "Essence",
-      "dimensions": {
-        "width": 23.17,
-        "height": 14.43,
-        "depth": 28.01
-      },
-      "images": [...],
-      "reviews": [...],
-      "tags": [...]
-    }
-  ],
-  "per_page": 15,
-  "total": 194
+{ 
+"current_page": 1, 
+"data": [ 
+{ 
+"id": 1, 
+"api_id": 1, 
+"title": "Essence Mascara Lash Princess", 
+"description": "...", 
+"category": "beauty", 
+"price": "9.99", 
+"discount_percentage": "7.17", 
+"rating": "4.94", 
+"stock": 5, 
+"brand": "Essence", 
+"dimensions": { 
+"width": 23.17, 
+"height": 14.43, 
+"depth": 28.01 
+}, 
+"images": [...], 
+"reviews": [...], 
+"tags": [...] 
+} 
+], 
+"per_page": 15, 
+"total": 194
 }
 ```
 
@@ -123,25 +123,25 @@ curl http://localhost:8000/api/products?search=phone
 curl http://localhost:8000/api/products?per_page=20&page=2
 ```
 
-### 2. Get Product Detail
+### 2. Get Product Details
 
 **GET** `/api/products/{id}`
 
-Mendapatkan detail produk berdasarkan database ID.
+Get product details based on ID database.
 
 **Response:**
 ```json
-{
-  "success": true,
-  "data": {
-    "id": 1,
-    "api_id": 1,
-    "title": "Essence Mascara Lash Princess",
-    "description": "...",
-    "price": "9.99",
-    "stock": 5,
-    ...
-  }
+{ 
+"success": true, 
+"data": { 
+"id": 1, 
+"api_id": 1, 
+"title": "Essence Mascara Lash Princess", 
+"description": "...", 
+"price": "9.99", 
+"stock": 5, 
+... 
+}
 }
 ```
 
@@ -154,20 +154,20 @@ curl http://localhost:8000/api/products/1
 
 **GET** `/api/products/categories`
 
-Mendapatkan daftar semua kategori yang tersedia.
+Get the list of all available categories.
 
 **Response:**
 ```json
-{
-  "success": true,
-  "data": [
-    "beauty",
-    "fragrances",
-    "furniture",
-    "groceries",
-    "home-decoration",
-    ...
-  ]
+{ 
+"success": true, 
+"data": [ 
+"beauty", 
+"fragrances", 
+"furniture", 
+"groceries", 
+"home decoration", 
+... 
+]
 }
 ```
 
@@ -180,21 +180,21 @@ curl http://localhost:8000/api/products/categories
 
 **GET** `/api/products/stats`
 
-Mendapatkan statistik produk.
+Get product statistics.
 
 **Response:**
 ```json
-{
-  "success": true,
-  "data": {
-    "total_products": 194,
-    "total_categories": 24,
-    "total_brands": 63,
-    "average_price": "1570.10",
-    "average_rating": "3.80",
-    "total_stock": "9779",
-    "out_of_stock": 4
-  }
+{ 
+"success": true, 
+"data": { 
+"total_products": 194, 
+"total_categories": 24, 
+"total_brands": 63, 
+"average_price": "1570.10", 
+"average_rating": "3.80", 
+"total_stock": "9779", 
+"out_of_stock": 4 
+}
 }
 ```
 
@@ -207,14 +207,14 @@ curl http://localhost:8000/api/products/stats
 
 **POST** `/api/products/sync`
 
-Sync semua produk dari DummyJSON API ke database.
+Sync all products from DummyJSON API to database.
 
 **Response:**
 ```json
-{
-  "success": true,
-  "message": "Successfully synced 194 products",
-  "total": 194
+{ 
+"success": true, 
+"message": "Successfully synced 194 products", 
+"total": 194
 }
 ```
 
@@ -227,22 +227,21 @@ curl -X POST http://localhost:8000/api/products/sync
 
 **POST** `/api/products/sync/{apiId}`
 
-Sync produk tertentu berdasarkan DummyJSON API ID.
+Sync specific products based on DummyJSON API ID.
 
 **Response:**
 ```json
-{
-  "success": true,
-  "message": "Product synced successfully",
-  "data": {
-    "id": 1,
-    "api_id": 1,
-    "title": "Essence Mascara Lash Princess",
-    ...
-  }
+{ 
+"success": true, 
+"message": "Product synced successfully", 
+"data": { 
+"id": 1, 
+"api_id": 1, 
+"title": "Essence Mascara Lash Princess", 
+... 
+}
 }
 ```
-
 **Example:**
 ```bash
 curl -X POST http://localhost:8000/api/products/sync/1
@@ -258,8 +257,8 @@ docker-compose exec app php artisan products:sync
 
 Output:
 ```
-Starting to sync products from DummyJSON API...
- 194/194 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+Starting to sync products from DummyJSON API... 
+194/194 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
 Successfully synced 194 products!
 ```
 
@@ -273,59 +272,59 @@ Output:
 ```
 Syncing product with API ID: 1
 Successfully synced product: Essence Mascara Lash Princess
-+----------+-------------------------------+
-| Field    | Value                         |
-+----------+-------------------------------+
-| ID       | 1                             |
-| API ID   | 1                             |
-| Title    | Essence Mascara Lash Princess |
-| Category | beauty                        |
-| Brand    | Essence                       |
-| Price    | $9.99                         |
-| Stock    | 99                            |
-| Rating   | 2.56                          |
-+----------+-------------------------------+
++----------+----------------------+
+| Fields | Value |
++----------+----------------------+
+| ID | 1 |
+| API ID | 1 |
+| Title | Essence Mascara Lash Princess |
+| Categories | beauty |
+| Brands | Essence |
+| Price | $9.99 |
+| Stock | 99 |
+| Ratings | 2.56 |
++----------+----------------------+
 ```
 
-### Custom Limit
+### Custom Limits
 
 ```bash
 docker-compose exec app php artisan products:sync --limit=50
 ```
 
-## 🏗️ Arsitektur
+## 🏗️ Architecture
 
 ### Components
 
 ```
 app/
 ├── Models/
-│   └── Product.php                 # Eloquent model dengan casts & fillable
+│ └── Product.php # Eloquent models with casts & fillables
 ├── Services/
-│   └── DummyJsonService.php        # Service layer untuk API calls
+│ └── DummyJsonService.php # Service layer for API calls
 ├── Http/Controllers/
-│   └── ProductController.php       # RESTful controller
-└── Console/Commands/
-    └── SyncProducts.php            # Artisan command untuk sync
+│ └── ProductController.php # RESTful controller
+└── Console/Commands/ 
+└── SyncProducts.php # Artisan command for sync
 ```
 
 ### Service Layer
 
-**DummyJsonService.php** menyediakan methods:
+**DummyJsonService.php** provides methods:
 - `fetchProducts($limit, $skip)` - Fetch multiple products
 - `fetchProduct($id)` - Fetch single product
 - `fetchProductsByCategory($category)` - Filter by category
 - `searchProducts($query)` - Search products
 - `fetchCategories()` - Get all categories
 
-### Model
+### Models
 
 **Product.php** features:
-- Protected fillable untuk mass assignment
-- JSON casting untuk: dimensions, reviews, meta, images, tags
-- Decimal casting untuk: price, discount_percentage, rating, weight
+- Protected fillable for mass assignment
+- JSON casting for: dimensions, reviews, meta, images, tags
+- Decimal casting for: price, discount_percentage, rating, weight
 
-### Controller
+### Controllers
 
 **ProductController.php** provides:
 - RESTful methods (index, show)
@@ -351,13 +350,13 @@ docker-compose exec app php artisan products:sync
 # Get all products
 curl http://localhost:8000/api/products | jq
 
-# Filter by category
+# Filter by categories
 curl http://localhost:8000/api/products?category=smartphones | jq
 
 # Search products
 curl http://localhost:8000/api/products?search=laptop | jq
 
-# Get product detail
+# Get product details
 curl http://localhost:8000/api/products/1 | jq
 
 # Get statistics
@@ -366,27 +365,27 @@ curl http://localhost:8000/api/products/stats | jq
 
 ### 3. Scheduled Sync (Optional)
 
-Tambahkan ke `app/Console/Kernel.php`:
+Add to `app/Console/Kernel.php`:
 
 ```php
 protected function schedule(Schedule $schedule)
-{
-    // Sync products setiap hari jam 2 pagi
-    $schedule->command('products:sync')
-             ->dailyAt('02:00')
-             ->emailOutputOnFailure('admin@example.com');
+{ 
+// Sync products daily at 02:00 
+$schedule->command('products:sync') 
+->dailyAt('02:00') 
+->emailOutputOnFailure('admin@example.com');
 }
 ```
 
 ### 4. Background Sync via Queue (Optional)
 
-Untuk production, disarankan menggunakan queue:
+For production, it's recommended to use a queue:
 
 ```php
 // Create Job
 php artisan make:job SyncProductsJob
 
-// Dispatch job
+// Dispatch jobs
 dispatch(new SyncProductsJob());
 ```
 
@@ -396,11 +395,11 @@ dispatch(new SyncProductsJob());
 
 ```php
 // In your custom controller or service
-$products = Product::where('category', 'electronics')
-                  ->where('stock', '>', 0)
-                  ->where('price', '<', 1000)
-                  ->orderBy('rating', 'desc')
-                  ->get();
+$products = Product::where('category', 'electronics') 
+->where('stock', '>', 0) 
+->where('price', '<', 1000) 
+->orderBy('rating', 'desc') 
+->get();
 ```
 
 ### JSON Queries
@@ -409,7 +408,7 @@ $products = Product::where('category', 'electronics')
 // Search in JSON fields (MySQL 5.7+)
 $products = Product::whereJsonContains('tags', 'laptop')->get();
 
-// Get products with specific dimension
+// Get products with specific dimensions
 $products = Product::where('dimensions->width', '>', 50)->get();
 ```
 
@@ -417,52 +416,52 @@ $products = Product::where('dimensions->width', '>', 50)->get();
 
 ```php
 // Category statistics
-$stats = Product::select('category')
-    ->selectRaw('COUNT(*) as total')
-    ->selectRaw('AVG(price) as avg_price')
-    ->selectRaw('SUM(stock) as total_stock')
-    ->groupBy('category')
-    ->get();
+$stats = Product::select('category') 
+->selectRaw('COUNT(*) as total') 
+->selectRaw('AVG(price) as avg_price') 
+->selectRaw('SUM(stock) as total_stock') 
+->groupBy('category') 
+->get();
 ```
 
 ## 🐛 Troubleshooting
 
 ### Error: "Method newLine does not exist"
 
-Laravel 7 tidak memiliki method `newLine()`. Gunakan `line('')` sebagai gantinya.
+Laravel 7 does not have the `newLine()` method. Use `line('')` instead.
 
-### Error: "Connection timeout"
+### Error: "Connection timed out"
 
-Tingkatkan timeout di `DummyJsonService.php`:
+Increase timeout in `DummyJsonService.php`:
 ```php
 Http::timeout(60)->get(...)
 ```
 
 ### Error: "Duplicate entry for api_id"
 
-Gunakan `updateOrCreate()` untuk menghindari duplicate:
+Use `updateOrCreate()` to avoid duplicates:
 ```php
 Product::updateOrCreate(['api_id' => $id], $data);
 ```
 
 ## 📊 Monitoring
 
-Endpoints produk sudah terintegrasi dengan Prometheus metrics. Monitor:
-- Request count ke `/api/products`
+Product endpoints are integrated with Prometheus metrics. Monitors:
+- Request count to `/api/products`
 - Response time
 - Error rate
 
-Dashboard Grafana: http://localhost:3000
+Grafana Dashboard: http://localhost:3000
 
 ## 🚀 Next Steps
 
-1. **Add Caching**: Cache hasil query untuk performa lebih baik
-2. **Add Validation**: Validasi input di controller
+1. **Add Caching**: Cache query results for better performance
+2. **Add Validation**: Validate input in the controller
 3. **Add Tests**: Unit & feature tests
-4. **Add Queue**: Background processing untuk sync
-5. **Add Events**: Dispatch events untuk product created/updated
-6. **Add API Rate Limiting**: Throttle untuk API endpoints
+4. **Add Queue**: Background processing for sync
+5. **Add Events**: Dispatch events for product created/updated
+6. **Add API Rate Limiting**: Throttle for API endpoints
 
 ## 📝 License
 
-Sama dengan aplikasi utama.
+Same as the main application.

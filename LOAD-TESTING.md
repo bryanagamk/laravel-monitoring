@@ -1,35 +1,35 @@
 # 🔥 Load Testing Guide - Laravel Monitoring
 
-Panduan lengkap untuk melakukan load testing pada aplikasi Laravel dan memonitor hasilnya di Grafana.
+A complete guide to load testing Laravel applications and monitoring the results in Grafana.
 
-## 📋 Daftar Isi
+## 📋 Table of Contents
 
 1. [Test Endpoints](#test-endpoints)
 2. [Load Testing Scripts](#load-testing-scripts)
-3. [Monitoring di Grafana](#monitoring-di-grafana)
-4. [Metrics yang Diamati](#metrics-yang-diamati)
+3. [Monitoring in Grafana](#monitoring-di-grafana)
+4. [Observed Metrics](#metrics-yang-diamata)
 5. [Best Practices](#best-practices)
 
 ---
 
 ## 🎯 Test Endpoints
 
-Laravel sudah dilengkapi dengan berbagai endpoint untuk testing:
+Laravel comes with various endpoints for testing:
 
-| Endpoint | Deskripsi | Load Type |
+| Endpoint | Description | Load Type |
 |----------|-----------|-----------|
-| `/test/simple` | Response minimal, hampir tanpa load | Very Low |
+| `/test/simple` | Minimal response, almost no load | Very Low |
 | `/test/cpu` | Fibonacci calculation, CPU intensive | High CPU |
 | `/test/memory` | Large array allocation | High Memory |
 | `/test/database` | Database queries | I/O |
 | `/test/cache` | Cache operations | Memory + I/O |
-| `/test/mixed` | Kombinasi CPU + Memory + Cache | Mixed |
+| `/test/mixed` | Combination of CPU + Memory + Cache | Mixed |
 | `/test/slow` | Simulated slow response (1-3s) | Latency |
 
 ### Test Endpoint Examples:
 
 ```bash
-# Simple endpoint
+# Simple endpoints
 curl http://localhost:8000/test/simple
 
 # CPU intensive
@@ -43,35 +43,35 @@ curl http://localhost:8000/test/memory
 
 ## 🚀 Load Testing Scripts
 
-### Level 1: Simple Curl Loop (Paling Sederhana)
+### Level 1: Simple Curl Loop (Simplest)
 
 **File:** `loadtest/01-simple-curl.sh`
 
-**Deskripsi:** Sequential requests menggunakan curl dalam loop
+**Description:** Sequential requests using curl in a loop
 
-**Karakteristik:**
-- ✅ Sangat sederhana, tidak perlu install dependency
-- ✅ Mudah dipahami dan dimodifikasi
-- ❌ Sequential, tidak concurrent
-- ❌ Throughput rendah
+**Characteristics:**
+- ✅ Very simple, no extra dependencies required
+- ✅ Easy to understand and modify
+- ❌ Sequential (not concurrent)
+- ❌ Low throughput
 
-**Cara Menggunakan:**
+**How ​​to Use:**
 
 ```bash
 chmod +x loadtest/01-simple-curl.sh
 ./loadtest/01-simple-curl.sh
 ```
 
-**Konfigurasi:**
+**Configuration:**
 ```bash
-REQUESTS=100        # Total requests
-DELAY=0.1          # Delay between requests (seconds)
+REQUESTS=100 # Total requests
+DELAY=0.1 # Delay between requests (seconds)
 ```
 
-**Kapan Digunakan:**
-- Testing dasar
-- Debugging endpoint
-- Load ringan untuk development
+**When to Use:**
+- Basic testing
+- Debugging endpoints
+- Light load for development
 
 ---
 
@@ -79,30 +79,30 @@ DELAY=0.1          # Delay between requests (seconds)
 
 **File:** `loadtest/02-parallel-curl.sh`
 
-**Deskripsi:** Parallel execution menggunakan xargs
+**Description:** Parallel execution using xargs
 
-**Karakteristik:**
-- ✅ Tidak perlu install dependency tambahan
+**Characteristics:** 
+- ✅ No additional dependencies required
 - ✅ Concurrent requests
 - ✅ Response time statistics
-- ❌ Terbatas untuk load sedang
+- ❌ Limited to medium loads
 
-**Cara Menggunakan:**
+**How ​​to Use:**
 
 ```bash
 chmod +x loadtest/02-parallel-curl.sh
 ./loadtest/02-parallel-curl.sh
 ```
 
-**Konfigurasi:**
+**Configuration:**
 ```bash
-CONCURRENT=10         # Parallel requests
-TOTAL_REQUESTS=500    # Total requests
-DURATION=60          # Max duration (seconds)
+CONCURRENT=10 # Parallel requests
+TOTAL_REQUESTS=500 # Total requests
+DURATION=60 # Max duration (seconds)
 ```
 
-**Kapan Digunakan:**
-- Load testing sedang
+**When to Use:**
+- Medium load testing
 - Quick performance check
 - CI/CD pipeline testing
 
@@ -112,14 +112,14 @@ DURATION=60          # Max duration (seconds)
 
 **File:** `loadtest/03-apache-bench.sh`
 
-**Deskripsi:** Industry-standard benchmarking tool
+**Description:** Industry-standard benchmarking tool
 
-**Karakteristik:**
-- ✅ Industry standard
+**Characteristics:**
+- ✅ Industry standards
 - ✅ Detailed statistics
 - ✅ Percentile calculations
-- ✅ Connection reuse
-- ❌ Perlu install apache2-utils
+- ✅ Connection reuse 
+- ❌ Requirements apache2-utils
 
 **Install:**
 
@@ -134,38 +134,38 @@ sudo apt-get install apache2-utils
 sudo yum install httpd-tools
 ```
 
-**Cara Menggunakan:**
+**How ​​to Use:**
 
 ```bash
 chmod +x loadtest/03-apache-bench.sh
 ./loadtest/03-apache-bench.sh
 ```
 
-**Konfigurasi:**
+**Configuration:**
 ```bash
-CONCURRENT=50        # Concurrent requests
-TOTAL_REQUESTS=1000  # Total requests per endpoint
+CONCURRENT=50 # Concurrent requests
+TOTAL_REQUESTS=1000 # Total requests per endpoint
 ```
 
-**Kapan Digunakan:**
+**When to Use:**
 - Quick benchmarking
 - Comparing performance changes
 - Load testing production-ready apps
 
 ---
 
-### Level 4: Python Concurrent
+### Level 4: Concurrent Python
 
-**File:** `loadtest/04-python-concurrent.py`
+**Files:** `loadtest/04-python-concurrent.py`
 
-**Deskripsi:** Async/concurrent testing dengan Python asyncio
+**Description:** Async/concurrent testing with Python asyncio
 
-**Karakteristik:**
-- ✅ True concurrency dengan asyncio
-- ✅ Detailed statistics
-- ✅ Easy to customize
-- ✅ Good for complex scenarios
-- ❌ Perlu Python 3.7+ dan dependencies
+**Characteristics:** 
+- ✅ True concurrency with asyncio 
+- ✅ Detailed statistics 
+- ✅ Easy to customize 
+- ✅ Good for complex scenarios 
+- ❌ Requires Python 3.7+ and dependencies
 
 **Install Dependencies:**
 
@@ -173,21 +173,22 @@ TOTAL_REQUESTS=1000  # Total requests per endpoint
 pip install aiohttp asyncio
 ```
 
-**Cara Menggunakan:**
+**How ​​to use:**
+**How ​​to Use:**
 
 ```bash
 chmod +x loadtest/04-python-concurrent.py
 python3 loadtest/04-python-concurrent.py
 ```
 
-**Konfigurasi:**
+**Configuration:**
 ```python
 CONCURRENT_USERS = 20
 TOTAL_REQUESTS = 500
 TIMEOUT = 10
 ```
 
-**Kapan Digunakan:**
+**When to Use:**
 - Medium to heavy load testing
 - Custom test scenarios
 - Need detailed statistics
@@ -199,15 +200,15 @@ TIMEOUT = 10
 
 **File:** `loadtest/05-k6-load-test.js`
 
-**Deskripsi:** Modern load testing tool dengan advanced scenarios
+**Description:** Modern load testing tool with advanced scenarios
 
-**Karakteristik:**
-- ✅ Production-grade tool
-- ✅ Advanced scenarios (ramping, spike)
+**Characteristics:**
+- ✅ Production-grade tools
+- ✅ Advanced scenarios (slim, spike)
 - ✅ Excellent metrics
 - ✅ Thresholds & SLOs
 - ✅ CI/CD friendly
-- ❌ Perlu install k6
+- ❌ Requires k6
 
 **Install:**
 
@@ -225,10 +226,10 @@ sudo apt-get install k6
 choco install k6
 ```
 
-**Cara Menggunakan:**
+**How ​​to use:**
 
 ```bash
-# Run dengan scenarios
+# Run with scenarios
 k6 run loadtest/05-k6-load-test.js
 
 # Custom parameters
@@ -238,13 +239,13 @@ k6 run --vus 50 --duration 5m loadtest/05-k6-load-test.js
 k6 run --out json=results.json loadtest/05-k6-load-test.js
 ```
 
-**Scenarios yang Tersedia:**
+**Available Scenarios:**
 
-1. **Constant Load** - 10 VUs selama 1 menit
-2. **Ramping Load** - Bertahap 0→20→50 VUs
-3. **Spike Test** - Sudden spike ke 100 VUs
+1. **Constant Load** - 10 VUs for 1 minute
+2. **Ramp Load** - Incremental 0→20→50 VUs
+3. **Spike Test** - Sudden spi
 
-**Kapan Digunakan:**
+**When to Use:**
 - Production load testing
 - Performance testing
 - SLO validation
@@ -257,7 +258,7 @@ k6 run --out json=results.json loadtest/05-k6-load-test.js
 
 **File:** `loadtest/06-locust-test.py`
 
-**Deskripsi:** Distributed load testing dengan Web UI
+**Description:** Distributed load testing with Web UI
 
 **Karakteristik:**
 - ✅ Production-grade distributed testing
@@ -265,7 +266,7 @@ k6 run --out json=results.json loadtest/05-k6-load-test.js
 - ✅ Distributed architecture
 - ✅ Python-based (easy to extend)
 - ✅ Custom user behavior
-- ❌ Perlu install locust
+- ❌ Requires locust
 
 **Install:**
 
@@ -273,7 +274,36 @@ k6 run --out json=results.json loadtest/05-k6-load-test.js
 pip install locust
 ```
 
-**Cara Menggunakan:**
+**When to Use:**
+- Production load testing
+- Performance testing
+- SLO validation
+- CI/CD integration
+- Stress testing
+
+---
+
+### Level 6: Locust (Production-Grade Distributed)
+
+**File:** `loadtest/06-locust-test.py`
+
+**Description:** Distributed load testing with Web UI
+
+**Characteristics:**
+- ✅ Production-grade distributed testing
+- ✅ Real-time web UI monitoring
+- ✅ Distributed architecture
+- ✅ Python-based (easy to extend)
+- ✅ Custom user behavior
+- ❌ Requires locust
+
+**Install:**
+
+```bash
+pip install locust
+```
+
+**How ​​to use:**
 
 #### Mode 1: Web UI (Interactive)
 
@@ -286,26 +316,26 @@ Then open: http://localhost:8089
 #### Mode 2: Headless (Command Line)
 
 ```bash
-locust -f loadtest/06-locust-test.py \
-       --host=http://localhost:8000 \
-       --users 100 \
-       --spawn-rate 10 \
-       --run-time 5m \
-       --headless
+locust -f loadtest/06-locust-test.py \ 
+--host=http://localhost:8000\ 
+--users 100\ 
+--spawn-rate 10\ 
+--run-time 5m\ 
+--headless
 ```
 
 #### Mode 3: Distributed (Master-Worker)
 
 ```bash
 # Terminal 1 - Master
-locust -f loadtest/06-locust-test.py \
-       --host=http://localhost:8000 \
-       --master
+locust -f loadtest/06-locust-test.py \ 
+--host=http://localhost:8000\ 
+--master
 
-# Terminal 2,3,4... - Workers
-locust -f loadtest/06-locust-test.py \
-       --host=http://localhost:8000 \
-       --worker
+# Terminals 2,3,4... - Workers
+locust -f loadtest/06-locust-test.py\ 
+--host=http://localhost:8000\ 
+--workers
 ```
 
 **User Types:**
@@ -314,29 +344,29 @@ locust -f loadtest/06-locust-test.py \
 2. **AdminUser** (5%) - Admin checking metrics
 
 **Task Weights:**
-- Simple endpoint: 40%
+- Simple endpoints: 40%
 - CPU intensive: 20%
 - Memory intensive: 15%
-- Database: 10%
+- Databases: 10%
 - Cache: 10%
 - Mixed: 5%
 - Slow: 3%
 
-**Kapan Digunakan:**
+**When to Use:**
 - Large-scale load testing
 - Distributed testing
 - Complex user scenarios
-- Real-time monitoring needed
+- Real-time monitoring required
 - Production-grade testing
 
 ---
 
-## 📊 Monitoring di Grafana
+## 📊 Monitoring in Grafana
 
-### Akses Dashboard
+### Access Dashboard
 
 ```bash
-# Buka Grafana
+# Open Grafana
 http://localhost:3000
 
 # Login
@@ -347,34 +377,34 @@ Password: admin
 "Laravel Monitoring Dashboard"
 ```
 
-### Metrics yang Terlihat
+### Visible Metrics
 
-Saat load testing berjalan, perhatikan perubahan di panel berikut:
+While load testing is running, watch for changes in the following panels:
 
 #### 1. System Metrics
 
 **CPU Usage (%)**
-- Akan naik saat `/test/cpu` dipanggil
-- Spike selama test berlangsung
+- Will increase when `/test/cpu` is called
+- Spikes during the test
 - Normal < 50%, Warning > 70%, Critical > 90%
 
 **Memory Usage (%)**
-- Akan naik saat `/test/memory` dipanggil
-- Perhatikan memory leak (tidak turun setelah test)
+- Will increase when `/test/memory` is called
+- Watch for memory leaks (doesn't decrease after the test)
 - Normal < 70%, Warning > 80%, Critical > 90%
 
 **Load Average (1m)**
-- Indikator beban sistem
-- Ideal: < jumlah CPU cores
+- System load indicator
+- Ideal: < number of CPU cores
 - Warning: > 2x CPU cores
 
 **Disk I/O**
 - Read/write operations
-- Akan naik saat `/test/database` dipanggil
+- Will rise when `/test/database` is called
 
 **Network I/O**
 - Incoming/outgoing traffic
-- Korelasi dengan request rate
+- Correlation with request rate
 
 #### 2. Container Metrics
 
@@ -390,7 +420,7 @@ Saat load testing berjalan, perhatikan perubahan di panel berikut:
 
 **Laravel HTTP Requests/s**
 - Real-time request rate
-- Compare dengan target throughput
+- Compare with target throughput
 - Track error rates (non-200)
 
 **Laravel Response Time**
@@ -419,75 +449,75 @@ Saat load testing berjalan, perhatikan perubahan di panel berikut:
 
 ---
 
-## 🎯 Metrics yang Diamati
+## 🎯 Observed Metrics
 
 ### System Level
 
 ```
-✅ CPU Usage
-   - Total CPU utilization
-   - Per-core usage
-   - User vs system time
+✅ CPU Usage 
+- Total CPU utilization 
+- Per-core usage 
+- User vs system time
 
-✅ Memory Usage
-   - Total memory
-   - Available memory
-   - Cache/Buffer usage
-   - Swap usage
+✅ Memory Usage 
+- Total memory 
+- Available memory 
+- Cache/Buffer usage 
+- Swap usage
 
-✅ Disk I/O
-   - Read operations
-   - Write operations
-   - I/O wait time
-   - Disk utilization
+✅ Disk I/O 
+- Read operations 
+- Write operations 
+- I/O wait time 
+- Disk utilization
 
-✅ Network I/O
-   - Bytes sent
-   - Bytes received
-   - Packets sent/received
-   - Network errors
+✅ Network I/O 
+- Bytes sent 
+- Bytes received 
+- Packages sent/received 
+- Network errors
 
-✅ Load Average
-   - 1 minute average
-   - 5 minute average
-   - 15 minute average
+✅ Load Average 
+- 1 minute average 
+- 5 minute average 
+- 15 minute average
 ```
 
 ### Container Level
 
 ```
-✅ Container CPU
-   - CPU usage per container
-   - CPU throttling
+✅ CPU Container 
+- CPU usage per container 
+- CPU throttling
 
-✅ Container Memory
-   - Memory usage
-   - Memory limits
-   - OOM kills
+✅ Container Memory 
+- Memory usage 
+- Memory limits 
+- OOM kills
 
-✅ Container Network
-   - Network traffic per container
-   - Network errors
+✅ Container Networks 
+- Network traffic per container 
+- Network errors
 ```
 
 ### Application Level
 
 ```
-✅ HTTP Requests
-   - Total requests
-   - Requests per second
-   - Status code distribution
+✅ HTTP Requests 
+- Total requests 
+- Requests per second 
+- Code distribution status
 
-✅ Response Time
-   - Min, Max, Avg
-   - Percentiles (p50, p90, p95, p99)
-   - Response time distribution
+✅ Response Time 
+- Min, Max, Avg 
+- Percentiles (p50, p90, p95, p99) 
+- Response time distribution
 
-✅ Application Metrics
-   - PHP memory usage
-   - Application uptime
-   - Error rates
-   - Cache hit/miss
+✅ Application Metrics 
+- PHP memory usage 
+- Application uptime 
+- Error rates 
+- Cache hit/miss
 ```
 
 ---
@@ -513,7 +543,7 @@ k6 run loadtest/05-k6-load-test.js
 # Before: Establish baseline
 # Check Grafana metrics at idle state
 
-# During: Monitor real-time
+# During: Real-time monitoring
 # Watch for anomalies, spikes, errors
 
 # After: Analyze results
@@ -521,10 +551,10 @@ k6 run loadtest/05-k6-load-test.js
 # Look for memory leaks
 ```
 
-### 3. Use Appropriate Tool
+### 3. Use Appropriate Tools
 
-| Use Case | Recommended Tool |
-|----------|------------------|
+| Use Cases | Recommended Tools |
+|----------|---------|
 | Quick test | Simple curl / ab |
 | Development | Parallel curl / Python |
 | CI/CD | k6 |
@@ -545,7 +575,7 @@ Throughput: > 100 req/s
 
 ```bash
 # Normal load
-# Peak load  
+# Peak load
 # Spike load
 # Sustained load
 # Gradual ramp-up
@@ -559,8 +589,8 @@ Throughput: > 100 req/s
 docker-compose exec app php -i | grep memory_limit
 
 # Check MySQL connections
-docker-compose exec mysql mysql -u root -proot \
-  -e "SHOW VARIABLES LIKE 'max_connections';"
+docker-compose exec mysql mysql -u root -proot \ 
+-e "SHOW VARIABLES LIKE 'max_connections';"
 
 # Check Nginx worker connections
 docker-compose exec nginx nginx -T | grep worker_connections
@@ -620,36 +650,36 @@ curl http://localhost:8000/metrics
 
 ## 🎓 Example Workflow
 
-### Scenario: Performance Testing Sebelum Deploy
+### Scenario: Performance Testing Before Deployment
 
 ```bash
-# 1. Pastikan monitoring berjalan
+# 1. Ensure monitoring is running
 docker-compose ps
 
-# 2. Buka Grafana di browser kedua
+# 2. Open Grafana in the second browser
 open http://localhost:3000
 
-# 3. Run baseline test (5 menit)
+# 3. Run baseline test (5 minutes)
 k6 run --duration 5m --vus 10 loadtest/05-k6-load-test.js
 
-# 4. Observe di Grafana:
-#    - CPU usage pattern
-#    - Memory consumption
-#    - Response time (p95 < 1s?)
-#    - Error rate (< 1%?)
+# 4. Observe in Grafana:
+# - CPU usage pattern
+# - Memory consumption
+# - Response time (p95 < 1s?)
+# - Error rate (< 1%?)
 
 # 5. Run stress test (spike)
 k6 run loadtest/05-k6-load-test.js
 
 # 6. Verify recovery:
-#    - Metrics kembali normal?
-#    - Ada memory leak?
-#    - Container restart?
+# - Metrics back to normal?
+# - Is there a memory leak?
+# - Container restart?
 
 # 7. Document results
-#    - Screenshot Grafana
-#    - Save k6 output
-#    - Note any issues
+# - Grafana Screenshots
+# - Save k6 output
+# - Note any issues
 ```
 
 ---
@@ -704,7 +734,7 @@ dmesg | grep -i oom
 
 - [ ] Baseline metrics documented
 - [ ] Load test passed with target RPS
-- [ ] Response time < SLO targets
+- [ ] Response time < SLO target
 - [ ] Error rate < 1%
 - [ ] No memory leaks detected
 - [ ] CPU usage acceptable
@@ -717,4 +747,4 @@ dmesg | grep -i oom
 
 **Happy Load Testing! 🚀📊**
 
-Buka Grafana dan lihat metrics real-time: http://localhost:3000
+Open Grafana and view real-time metrics: http://localhost:3000

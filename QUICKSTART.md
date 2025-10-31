@@ -1,13 +1,13 @@
 # 🎯 QUICK START GUIDE - Laravel Monitoring
 
-## ✅ Setup Selesai!
+## ✅ Setup Complete!
 
-Sistem monitoring Laravel Anda sudah siap dengan semua komponen:
+Your Laravel monitoring system is ready with all the components:
 
-### 📊 Metrics yang Dipantau:
+### 📊 Monitored Metrics:
 
 #### 1. **System Metrics** (Node Exporter)
-- ✅ CPU Usage (per core & rata-rata)
+- ✅ CPU Usage (per core & average)
 - ✅ Memory Usage (RSS, cache, available)
 - ✅ Disk Usage & I/O operations
 - ✅ Network I/O (incoming/outgoing)
@@ -22,7 +22,7 @@ Sistem monitoring Laravel Anda sudah siap dengan semua komponen:
 #### 3. **Database Metrics** (MySQL Exporter)
 - ✅ Query performance & QPS
 - ✅ Connection pool status
-- ✅ Slow queries tracking
+- ✅ Slow query tracking
 
 #### 4. **Web Server Metrics** (Nginx Exporter)
 - ✅ Request rate
@@ -40,37 +40,37 @@ Sistem monitoring Laravel Anda sudah siap dengan semua komponen:
 
 ## 🌐 Access URLs
 
-| Service | URL | Credentials |
+| Services | URL | Credentials |
 |---------|-----|-------------|
 | **Laravel** | http://localhost:8000 | - |
 | **Laravel Metrics** | http://localhost:8000/metrics | - |
 | **Grafana Dashboard** | http://localhost:3000 | admin / admin |
 | **Prometheus** | http://localhost:9090 | - |
 | **cAdvisor** | http://localhost:8080 | - |
-| **Node Exporter** | http://localhost:9100/metrics | - |
+| **Exporter Nodes** | http://localhost:9100/metrics | - |
 | **MySQL Exporter** | http://localhost:9104/metrics | - |
 | **Nginx Exporter** | http://localhost:9113/metrics | - |
 
 ---
 
-## 🚀 Cara Menggunakan
+## 🚀 How to Use
 
-### 1. Akses Grafana Dashboard
+### 1. Access Grafana Dashboard
 ```bash
-# Buka browser
+# Open browser
 open http://localhost:3000
 
-# Login dengan:
+# Login with:
 Username: admin
 Password: admin
 
-# Dashboard sudah auto-loaded:
+# Dashboard is auto-loaded:
 # "Laravel Monitoring Dashboard"
 ```
 
-### 2. View Metrics di Prometheus
+### 2. View Metrics in Prometheus
 ```bash
-# Buka Prometheus
+# Open Prometheus
 open http://localhost:9090
 
 # Check targets status
@@ -82,7 +82,7 @@ open http://localhost:9090/targets
 # - Requests: rate(laravel_app_http_requests_total[5m])
 ```
 
-### 3. Test Metrics Endpoint
+### 3. Endpoint Test Metrics
 ```bash
 # Laravel metrics
 curl http://localhost:8000/metrics
@@ -104,7 +104,7 @@ curl http://localhost:9113/metrics | grep "nginx"
 
 ## 📈 Dashboard Panels
 
-Dashboard Grafana sudah include:
+Grafana Dashboard includes:
 
 1. **CPU Usage** - Real-time CPU utilization chart
 2. **Memory Usage** - Memory consumption over time
@@ -121,7 +121,7 @@ Dashboard Grafana sudah include:
 13. **Disk I/O Wait** - I/O wait percentage
 14. **MySQL Queries** - Query performance
 15. **MySQL Connections** - Connection pool
-16. **Nginx Requests** - Web server RPS
+16. **Nginx Requests** - RPS web server
 
 ---
 
@@ -135,7 +135,7 @@ docker-compose up -d
 # Stop all services
 docker-compose down
 
-# Restart specific service
+# Restart specific services
 docker-compose restart [service-name]
 
 # View logs
@@ -149,7 +149,7 @@ docker-compose logs -f grafana
 
 ### Laravel Commands
 ```bash
-# Access Laravel container
+# Access Laravel containers
 docker-compose exec app bash
 
 # Run artisan commands
@@ -175,38 +175,38 @@ curl http://localhost:9090/api/v1/targets
 
 ---
 
-## 📊 Custom Metrics di Laravel
+## 📊 Custom Metrics in Laravel
 
-Tambahkan custom metrics di aplikasi Anda:
+Add custom metrics in your app:
 
 ```php
-// Di Controller atau Service
+// In Controller or Service
 $registry = app('prometheus');
 
-// Counter - untuk counting events
-$counter = $registry->getOrRegisterCounter(
-    'laravel_app',
-    'user_logins_total',
-    'Total user logins',
-    ['status']
+// Counter - for counting events
+$counter = $registry->getOrRegisterCounter( 
+'laravel_app', 
+'user_logins_total', 
+'Total user logins', 
+['status']
 );
 $counter->inc(['success']); // increment
 
-// Gauge - untuk nilai yang naik/turun
-$gauge = $registry->getOrRegisterGauge(
-    'laravel_app',
-    'active_users',
-    'Number of currently active users'
+// Gauge - for increasing/decreasing values
+$gauge = $registry->getOrRegisterGauge( 
+'laravel_app', 
+'active_users', 
+'Number of currently active users'
 );
 $gauge->set(User::where('active', true)->count());
 
-// Histogram - untuk distribusi nilai (response time, dll)
-$histogram = $registry->getOrRegisterHistogram(
-    'laravel_app',
-    'api_response_time',
-    'API response time in seconds',
-    ['endpoint'],
-    [0.1, 0.5, 1.0, 2.0, 5.0] // buckets
+// Histogram - for distribution of values ​​(response time, etc.)
+$histogram = $registry->getOrRegisterHistogram( 
+'laravel_app', 
+'api_response_time', 
+'API response time in seconds', 
+['endpoint'], 
+[0.1, 0.5, 1.0, 2.0, 5.0] // buckets
 );
 $histogram->observe(0.234, ['/api/users']);
 ```
@@ -229,11 +229,11 @@ $histogram->observe(0.234, ['/api/users']);
 
 ### Troubleshooting
 - Correlate metrics during incidents
-- Identify resource contention
+- Identify resource content
 - Track error rates
 - Monitor container health
 
-### Alerting (Setup di Grafana)
+### Alerting (Setup in Grafana)
 - CPU usage > 80%
 - Memory usage > 85%
 - Disk usage > 90%
@@ -244,24 +244,24 @@ $histogram->observe(0.234, ['/api/users']);
 
 ## 🔧 Troubleshooting
 
-### Container tidak start
+### Container won't start
 ```bash
 docker-compose logs [service-name]
 docker-compose restart [service-name]
 ```
 
-### Metrics tidak muncul
+### Metrics not appearing
 ```bash
 # Check Prometheus targets
 open http://localhost:9090/targets
 
-# Test endpoint
+# Test endpoints
 curl http://localhost:8000/metrics
 ```
 
-### Grafana dashboard kosong
+### Grafana dashboard is empty
 ```bash
-# Wait 30-60 seconds untuk data collection
+# Wait 30-60 seconds for data collection
 # Refresh Prometheus datasource
 # Check time range (last 1 hour)
 ```
@@ -284,13 +284,13 @@ docker-compose exec app chmod -R 775 storage bootstrap/cache
 
 ## 🎉 You're All Set!
 
-Monitoring system Anda sudah berjalan dan siap digunakan!
+Your monitoring system is up and running!
 
 **Next Steps:**
-1. ✅ Akses Grafana: http://localhost:3000
+1. ✅ Access Grafana: http://localhost:3000
 2. ✅ Explore dashboard
 3. ✅ Setup alerting rules
-4. ✅ Customize metrics sesuai kebutuhan
+4. ✅ Customize metrics according to needs
 5. ✅ Monitor production metrics
 
 **Happy Monitoring! 🚀📊**

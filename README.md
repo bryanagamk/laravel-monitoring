@@ -1,11 +1,11 @@
-# Laravel Monitoring dengan Docker
+# Laravel Monitoring with Docker
 
-Project ini berisi setup Docker untuk Laravel 7.20 dengan **monitoring lengkap** menggunakan Prometheus dan Grafana.
+This project contains a Docker setup for Laravel 7.20 with **complete monitoring** using Prometheus and Grafana.
 
 ## 🎯 Monitoring Features
 
 ### ✅ System Metrics (Node Exporter)
-- **CPU Usage** - Per core dan rata-rata
+- **CPU Usage** - Per core and average
 - **Memory Usage** - RSS, cache, swap, available
 - **Disk Usage** - Space utilization & I/O operations
 - **Disk I/O Wait** - I/O wait percentage
@@ -26,7 +26,7 @@ Project ini berisi setup Docker untuk Laravel 7.20 dengan **monitoring lengkap**
 ### ✅ Web Server Metrics (Nginx Exporter)
 - **Request Rate** - Requests per second
 - **Active Connections** - Current connections
-- **Response Codes** - Status distribution
+- **Response Codes** - Distribution status
 
 ### ✅ Laravel Application Metrics (PromPHP)
 - **HTTP Requests** - Total & per endpoint
@@ -45,7 +45,7 @@ Project ini berisi setup Docker untuk Laravel 7.20 dengan **monitoring lengkap**
 - **Health Check History** - Trend analysis
 - **Automated Checks** - Every 5 minutes via scheduler
 
-## Stack
+## Stacks
 - PHP 7.4-FPM
 - Laravel 7.20
 - Nginx
@@ -53,22 +53,22 @@ Project ini berisi setup Docker untuk Laravel 7.20 dengan **monitoring lengkap**
 - Prometheus
 - Grafana
 
-## Cara Install
+## How to Install
 
 ### 1. Install Laravel 7.20
 
 ```bash
-# Install Laravel menggunakan Composer
+# Install Laravel using Composer
 composer create-project --prefer-dist laravel/laravel:^7.20 app
 ```
 
-### 2. Setup Environment Laravel
+### 2. Setup Laravel Environment
 
 ```bash
-# Copy file .env
+# Copy the .env file
 cp app/.env.example app/.env
 
-# Update konfigurasi database di app/.env
+# Update database configuration in app/.env
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -77,39 +77,39 @@ DB_USERNAME=laravel
 DB_PASSWORD=password
 ```
 
-### 3. Jalankan Docker Container
+### 3. Run Docker Containers
 
 ```bash
-# Build dan jalankan containers
+# Build and run containers
 docker-compose up -d --build
 
-# Install dependencies Laravel
+# Install Laravel dependencies
 docker-compose exec app composer install
 
 # Generate application key
 docker-compose exec app php artisan key:generate
 
-# Jalankan migration
+# Run migrations
 docker-compose exec app php artisan migrate
 ```
 
-### 4. Set Permission (jika diperlukan)
+### 4. Set Permission (if required)
 
 ```bash
-# Set permission untuk storage dan cache
+# Set permissions for storage and cache
 docker-compose exec app chmod -R 775 storage bootstrap/cache
 ```
 
-## Akses Aplikasi
+## App Access
 
-| Service | URL | Credentials | Description |
+| Services | URL | Credentials | Description |
 |---------|-----|-------------|-------------|
-| **Laravel** | http://localhost:8000 | - | Laravel Application |
-| **Laravel Metrics** | http://localhost:8000/metrics | - | Prometheus Metrics Endpoint |
-| **Grafana** | http://localhost:3000 | admin/admin | Dashboard & Visualization |
+| **Laravel** | http://localhost:8000 | - | Laravel Applications |
+| **Laravel Metrics** | http://localhost:8000/metrics | - | Prometheus Metrics Endpoints |
+| **Grafana** | http://localhost:3000 | admin/admin | Dashboards & Visualization |
 | **Prometheus** | http://localhost:9090 | - | Metrics Database & Queries |
 | **cAdvisor** | http://localhost:8080 | - | Container Metrics UI |
-| **Node Exporter** | http://localhost:9100/metrics | - | System Metrics |
+| **Exporter Nodes** | http://localhost:9100/metrics | - | System Metrics |
 | **MySQL Exporter** | http://localhost:9104/metrics | - | MySQL Metrics |
 | **Nginx Exporter** | http://localhost:9113/metrics | - | Nginx Metrics |
 
@@ -120,7 +120,7 @@ docker-compose exec app chmod -R 775 storage bootstrap/cache
 docker-compose up -d
 
 # 2. Wait for services to be ready (~30 seconds)
-sleep 30
+sleeps 30
 
 # 3. Access Grafana Dashboard
 open http://localhost:3000
@@ -142,12 +142,12 @@ open http://localhost:3000
 
 ## 🔥 Load Testing
 
-Project ini dilengkapi dengan 6 level load testing scripts:
+This project comes with 6 level load testing scripts:
 
-| Level | Tool | Complexity | Best For |
-|-------|------|------------|----------|
-| 1 | Simple Curl | ⭐ | Quick test, debugging |
-| 2 | Parallel Curl | ⭐⭐ | Medium load, CI/CD |
+| Levels | Tools | Complexity | Best For |
+|-------|------|------------|----------------|
+| 1 | Simple Curls | ⭐ | Quick test, debugging |
+| 2 | Parallel Curls | ⭐⭐ | Medium load, CI/CD |
 | 3 | Apache Bench | ⭐⭐ | Benchmarking |
 | 4 | Python Asyncio | ⭐⭐⭐ | Custom scenarios |
 | 5 | K6 | ⭐⭐⭐⭐ | Production testing |
@@ -167,142 +167,59 @@ locust -f loadtest/06-locust-test.py --host=http://localhost:8000
 # Open: http://localhost:8089
 ```
 
-**Lihat dokumentasi lengkap:** [LOAD-TESTING.md](LOAD-TESTING.md)
+**See full documentation:** [API-MONITORING.md](API-MONITORING.md)
 
-## 🛍️ Products API Integration
-
-Project ini sudah terintegrasi dengan **DummyJSON Products API** yang memungkinkan:
-- ✅ Fetch products dari external API
-- ✅ Sync & save ke database lokal
-- ✅ RESTful API endpoints (list, detail, categories, stats)
-- ✅ Filtering, pagination, dan search
-- ✅ Artisan command untuk sync
-
-### Quick Start:
+## Useful Docker Commands
 
 ```bash
-# Sync all products dari DummyJSON
-docker-compose exec app php artisan products:sync
-
-# Sync single product
-docker-compose exec app php artisan products:sync --id=1
-
-# Get products via API
-curl http://localhost:8000/api/products | jq
-
-# Get statistics
-curl http://localhost:8000/api/products/stats | jq
-
-# Get categories
-curl http://localhost:8000/api/products/categories | jq
-```
-
-### API Endpoints:
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/products` | List all products (with pagination) |
-| GET | `/api/products/{id}` | Get product detail |
-| GET | `/api/products/categories` | Get all categories |
-| GET | `/api/products/stats` | Get product statistics |
-| POST | `/api/products/sync` | Sync all products from DummyJSON |
-| POST | `/api/products/sync/{apiId}` | Sync single product |
-
-**Lihat dokumentasi lengkap:** [PRODUCTS-API.md](PRODUCTS-API.md)
-
-## 🔍 Third Party API Monitoring
-
-Project ini sudah dilengkapi dengan **sistem monitoring untuk third-party API** (DummyJSON) yang memantau:
-- ✅ Real-time health status (up/down)
-- ✅ Response time & latency tracking
-- ✅ Uptime percentage calculation
-- ✅ HTTP status code monitoring
-- ✅ Historical trend analysis
-
-### Quick Start:
-
-```bash
-# Check API health manually
-docker-compose exec app php artisan api:check-health
-
-# Comprehensive check (multiple endpoints)
-docker-compose exec app php artisan api:check-health --comprehensive
-
-# View health status via API
-curl http://localhost:8000/api/health/stats | jq
-
-# View in Grafana
-# Dashboard: "Third Party API Monitoring (DummyJSON)"
-open http://localhost:3000
-```
-
-### API Endpoints:
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/health` | Current health status (cached) |
-| GET | `/api/health/check` | Force fresh health check |
-| GET | `/api/health/comprehensive` | Check multiple endpoints |
-| GET | `/api/health/stats` | Uptime statistics |
-| GET | `/api/health/history` | Health check history |
-
-### Automated Monitoring:
-
-Health checks berjalan otomatis **setiap 5 menit** via Laravel Scheduler untuk memantau kesehatan API secara kontinyu.
-
-**Lihat dokumentasi lengkap:** [API-MONITORING.md](API-MONITORING.md)
-
-## Perintah Docker Useful
-
-```bash
-# Melihat log
+# View logs
 docker-compose logs -f
 
-# Masuk ke container app
+# Go to the app container
 docker-compose exec app bash
 
 # Stop containers
 docker-compose down
 
-# Stop dan hapus volumes
+# Stop and delete volumes
 docker-compose down -v
 ```
 
-## Struktur Folder
+## Folder Structure
 
 ```
 laravel-monitoring/
 ├── docker-compose.yml
-├── Dockerfile
-├── app/                    # Laravel 7.20 application
+├── Dockerfiles
+├── app/ # Laravel 7.20 application
 ├── nginx/
-│   └── default.conf        # Nginx configuration
+│ └── default.conf # Nginx configuration
 ├── php/
-│   └── local.ini           # PHP configuration
+│ └── local.ini # PHP configuration
 ├── prometheus/
-│   └── prometheus.yml      # Prometheus configuration
+│ └── prometheus.yml # Prometheus configuration
 └── grafana/
-    └── provisioning/
-        ├── dashboards/     # Grafana dashboards
-        └── datasources/    # Grafana datasources
+└── provisioning/
+├── dashboards/ # Grafana dashboards
+└── datasources/ # Grafana datasources
 ```
 
 ## Monitoring
 
 ### Prometheus
-Prometheus dikonfigurasi untuk monitoring:
+Prometheus is configured for monitoring:
 - Prometheus itself
 - Nginx
 - MySQL
 - Laravel App
 
 ### Grafana
-Grafana sudah dikonfigurasi dengan:
-- Prometheus sebagai datasource default
-- Auto-provisioning untuk dashboards
+Grafana is already configured with:
+- Prometheus as the default datasource
+- Auto-provisioning for dashboards
 - Default credentials: admin/admin
 
-Anda bisa menambahkan custom dashboards di folder `grafana/provisioning/dashboards/`.
+You can add custom dashboards in the `grafana/provisioning/dashboards/` folder.
 
 ## Troubleshooting
 

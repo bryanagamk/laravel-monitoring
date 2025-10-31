@@ -1,15 +1,15 @@
 # 🎉 Setup Complete - Laravel Monitoring System
 
-## ✅ Instalasi Selesai!
+## ✅ Installation Complete!
 
-Sistem monitoring lengkap untuk Laravel 7.20 sudah berhasil disetup dengan semua komponen yang diminta.
+The complete monitoring system for Laravel 7.20 has been successfully set up with all required components.
 
 ---
 
 ## 📋 Monitoring Metrics - Checklist
 
 ### ✅ System Metrics (Node Exporter)
-- [x] **CPU usage** (per core dan rata-rata)
+- [x] **CPU usage** (per core and average)
 - [x] **Memory usage** (RSS, cache, swap)
 - [x] **Disk usage** & I/O wait
 - [x] **Network I/O** (incoming/outgoing traffic)
@@ -17,7 +17,7 @@ Sistem monitoring lengkap untuk Laravel 7.20 sudah berhasil disetup dengan semua
 
 ### ✅ Container Metrics (cAdvisor)
 - [x] **Container metrics** (CPU, Memory, Network per container)
-- [x] **Container uptime** dan restart rate
+- [x] **Container uptime** and restart rate
 
 ### ✅ Database Metrics (MySQL Exporter)
 - [x] **MySQL performance** (queries, connections, slow queries)
@@ -27,14 +27,14 @@ Sistem monitoring lengkap untuk Laravel 7.20 sudah berhasil disetup dengan semua
 
 ### ✅ Application Metrics (Laravel + PromPHP)
 - [x] **HTTP requests** (total & per endpoint)
-- [x] **Response time** (histogram dengan percentiles)
+- [x] **Response time** (histogram with percentiles)
 - [x] **Memory usage** (PHP memory consumption)
 - [x] **Application uptime**
 - [x] **Process metrics**
 
 ---
 
-## 🏗️ Arsitektur Sistem
+## 🏗️ System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -179,7 +179,7 @@ http://localhost:9113/metrics  # Nginx metrics
 
 ## 📊 Grafana Dashboard
 
-Dashboard **"Laravel Monitoring Dashboard"** sudah include 16 panels:
+The **"Laravel Monitoring Dashboard"** dashboard includes 16 panels:
 
 ### System Performance
 1. CPU Usage (%) - Line chart
@@ -200,9 +200,9 @@ Dashboard **"Laravel Monitoring Dashboard"** sudah include 16 panels:
 12. Laravel Memory Usage - Gauge
 13. Laravel Uptime - Gauge
 
-### Database & Web Server
+### Databases & Web Servers
 14. MySQL Queries - Line chart (total & QPS)
-15. MySQL Connections - Line chart
+15. MySQL Connections - Line charts
 16. Nginx Requests/s - Line chart
 
 ---
@@ -323,39 +323,39 @@ rate(mysql_global_status_queries[5m])
 
 ## ✨ Next Steps
 
-1. **Explore Grafana Dashboard**
-   - Login to http://localhost:3000
-   - Check "Laravel Monitoring Dashboard"
-   - Customize panels sesuai kebutuhan
+1. **Explore Grafana Dashboard** 
+- Login to http://localhost:3000 
+- Check "Laravel Monitoring Dashboard" 
+- Customize panels according to needs
 
-2. **Setup Alerting**
-   - Configure alert rules di Grafana
-   - Setup notification channels (email, Slack, dll)
+2. **Setup Alerting** 
+- Configure alert rules in Grafana 
+- Setup notification channels (email, Slack, etc.)
 
-3. **Custom Metrics**
-   - Tambahkan business metrics di Laravel
-   - Track custom events (user registrations, orders, dll)
+3. **Custom Metrics** 
+- Add business metrics in Laravel 
+- Track custom events (user registrations, orders, etc.)
 
-4. **Production Ready**
-   - Change default passwords
-   - Setup SSL/TLS
-   - Configure retention policies
-   - Setup backups
+4. **Production Ready** 
+- Change default passwords 
+- SSL/TLS setup 
+- Configure retention policies 
+- Setup backups
 
 ---
 
-## 🎉 Selesai!
+## 🎉 Done!
 
-Sistem monitoring Laravel Anda sudah **100% siap** dengan semua metrics yang diminta:
+Your Laravel monitoring system is **100% ready** with all the requested metrics:
 
-✅ CPU usage (per core dan rata-rata)  
-✅ Memory usage (RSS, cache, swap)  
-✅ Disk usage & I/O wait  
-✅ Network I/O (incoming/outgoing traffic)  
-✅ Load average  
-✅ Container metrics  
-✅ Process uptime dan restart rate  
-✅ Plus: MySQL, Nginx, dan Laravel application metrics!
+✅ CPU usage (per core and average)
+✅ Memory usage (RSS, cache, swap)
+✅ Disk usage & I/O wait
+✅ Network I/O (incoming/outgoing traffic)
+✅ Load average
+✅ Container metrics
+✅ Process uptime and restart rate
+✅ Plus: MySQL, Nginx, and Laravel application metrics!
 
 **Happy Monitoring! 🚀📊**
 

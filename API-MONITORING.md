@@ -1,6 +1,6 @@
 # 🔍 Third Party API Health Monitoring
 
-Dokumentasi lengkap untuk sistem monitoring kesehatan third-party API (DummyJSON). Sistem ini memantau availability, performance, dan response time dari external API secara real-time.
+Complete documentation for the third-party API health monitoring system (DummyJSON). This system monitors availability, performance, and response time of external APIs in real-time.
 
 ## 📋 Overview
 
@@ -292,7 +292,7 @@ Overall Status: UP
 
 ## ⏰ Scheduled Monitoring
 
-Health checks berjalan otomatis setiap 5 menit via Laravel Scheduler.
+Health checks run automatically every 5 minutes via Laravel Scheduler.
 
 ### Configuration
 
@@ -311,7 +311,7 @@ protected function schedule(Schedule $schedule)
 
 ### Setup Cron (Production)
 
-Untuk menjalankan scheduler di production, tambahkan ke crontab:
+To run the scheduler in production, add to crontab:
 
 ```bash
 * * * * * cd /path/to/laravel-monitoring && docker-compose exec -T app php artisan schedule:run >> /dev/null 2>&1

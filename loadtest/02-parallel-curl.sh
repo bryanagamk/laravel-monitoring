@@ -2,7 +2,7 @@
 
 # =========================================
 # Level 2: Parallel Curl
-# Menggunakan parallel execution
+# Using parallel execution
 # =========================================
 
 echo "🔄 Parallel Curl Load Test"

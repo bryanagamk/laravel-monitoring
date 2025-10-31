@@ -1,14 +1,14 @@
-# 📊 Laravel Monitoring dengan Prometheus & Grafana
+# 📊 Laravel Monitoring with Prometheus & Grafana
 
-Sistem monitoring lengkap untuk Laravel 7.20 dengan Docker yang mencakup monitoring sistem, container, database, dan aplikasi.
+A comprehensive monitoring system for Laravel 7.20 with Docker that includes system, container, database, and application monitoring.
 
-## 🎯 Metrics yang Dipantau
+## 🎯 Monitored Metrics
 
 ### 1. **System Metrics** (Node Exporter)
-- ✅ **CPU Usage** - Per core dan rata-rata
+- ✅ **CPU Usage** - Per core and average
 - ✅ **Memory Usage** - RSS, cache, available
-- ✅ **Disk Usage** - Space dan I/O operations
-- ✅ **Disk I/O Wait** - Percentage waktu tunggu I/O
+- ✅ **Disk Usage** - Space and I/O operations
+- ✅ **Disk I/O Wait** - Percentage of I/O waiting time
 - ✅ **Network I/O** - Incoming/outgoing traffic per interface
 - ✅ **Load Average** - 1m, 5m, 15m
 
@@ -16,7 +16,7 @@ Sistem monitoring lengkap untuk Laravel 7.20 dengan Docker yang mencakup monitor
 - ✅ **Container CPU Usage** - Per container
 - ✅ **Container Memory Usage** - Per container
 - ✅ **Container Network I/O** - Per container
-- ✅ **Container Restart Count** - Monitoring stability
+- ✅ **Containers Restart Count** - Monitoring stability
 
 ### 3. **MySQL Metrics** (MySQL Exporter)
 - ✅ **Query Performance** - Queries per second
@@ -30,60 +30,60 @@ Sistem monitoring lengkap untuk Laravel 7.20 dengan Docker yang mencakup monitor
 - ✅ **Response Codes** - Status code distribution
 
 ### 5. **Laravel Application Metrics** (PromPHP)
-- ✅ **HTTP Requests** - Total dan per endpoint
+- ✅ **HTTP Requests** - Total and per endpoint
 - ✅ **Response Time** - p50, p95, p99 percentiles
 - ✅ **Memory Usage** - PHP memory consumption
 - ✅ **Application Uptime** - Process uptime
 - ✅ **Cache Hit/Miss Rate** - Cache performance
 - ✅ **Queue Jobs** - Job processing metrics
-- ✅ **Exceptions** - Error tracking
+- ✅ **Exceptions** - Tracking error
 
 ## 🚀 Setup & Installation
 
-### 1. Install Laravel 7.20 (Sudah Selesai)
+### 1. Install Laravel 7.20 (Completed)
 ```bash
 composer create-project --prefer-dist laravel/laravel:^7.20 app
 ```
 
-### 2. Install PromPHP Package (Sudah Selesai)
+### 2. Install PromPHP Package (Completed)
 ```bash
 docker-compose exec app composer require promphp/prometheus_client_php
 ```
 
 ### 3. Restart Docker Containers
 ```bash
-# Stop semua container
+# Stop all containers
 docker-compose down
 
-# Rebuild dan start semua container
+# Rebuild and start all containers
 docker-compose up -d --build
 
-# Tunggu semua service ready (~30 detik)
+#Wait for all services to be ready (~30s)
 ```
 
 ### 4. Verify Services
 ```bash
-# Check status container
+# Check container status
 docker-compose ps
 
-# Check logs jika ada masalah
+# Check logs if there are problems
 docker-compose logs -f
 ```
 
 ## 🌐 Access Points
 
-| Service | URL | Credentials |
+| Services | URL | Credentials |
 |---------|-----|-------------|
 | **Laravel** | http://localhost:8000 | - |
 | **Laravel Metrics** | http://localhost:8000/metrics | - |
 | **Grafana** | http://localhost:3000 | admin/admin |
 | **Prometheus** | http://localhost:9090 | - |
 | **cAdvisor** | http://localhost:8080 | - |
-| **Node Exporter** | http://localhost:9100 | - |
+| **Exporter Nodes** | http://localhost:9100 | - |
 
 ## 📊 Grafana Dashboard
 
-Dashboard sudah otomatis ter-provision dengan panels:
+The dashboard is automatically provisioned with panels:
 
 1. **CPU Usage** - Real-time CPU utilization
 2. **Memory Usage** - Memory consumption
@@ -99,47 +99,47 @@ Dashboard sudah otomatis ter-provision dengan panels:
 12. **Disk I/O** - Read/write operations
 13. **Disk I/O Wait** - I/O wait percentage
 14. **MySQL Queries** - Query performance
-15. **MySQL Connections** - Connection pool
+15. **MySQL Connections** - Connections pool
 16. **Nginx Requests** - Web server metrics
 
-### Akses Dashboard:
-1. Buka http://localhost:3000
-2. Login dengan `admin` / `admin`
-3. Dashboard "Laravel Monitoring Dashboard" sudah tersedia
+### Dashboard Access:
+1. Go to http://localhost:3000
+2. Login with `admin` / `admin`
+3. The "Laravel Monitoring Dashboard" dashboard is now available
 
-## 🔧 Konfigurasi File
+## 🔧 Configuration Files
 
 ### Docker Services:
 ```
-laravel-app           - PHP 7.4-FPM (Laravel)
-laravel-nginx         - Nginx Web Server
-laravel-mysql         - MySQL 8.0 Database
-laravel-prometheus    - Prometheus (Metrics Collection)
-laravel-grafana       - Grafana (Visualization)
+laravel-app - PHP 7.4-FPM (Laravel)
+laravel-nginx - Nginx Web Server
+laravel-mysql - MySQL 8.0 Database
+laravel-prometheus - Prometheus (Metrics Collection)
+laravel-grafana - Grafana (Visualization)
 laravel-node-exporter - System Metrics
-laravel-cadvisor      - Container Metrics
+laravel-cadvisor - Container Metrics
 laravel-mysql-exporter - MySQL Metrics
 laravel-nginx-exporter - Nginx Metrics
 ```
 
 ### Prometheus Scrape Jobs:
 ```yaml
-- prometheus:9090      # Prometheus self-monitoring
-- node-exporter:9100   # System metrics
-- cadvisor:8080        # Container metrics
-- mysql-exporter:9104  # MySQL metrics
-- nginx-exporter:9113  # Nginx metrics
-- nginx:80/metrics     # Laravel app metrics
+- prometheus:9090 # Prometheus self-monitoring
+- node-exporter:9100 # System metrics
+- cadvisor:8080 # Container metrics
+- mysql-exporter:9104 # MySQL metrics
+- nginx-exporter:9113 # Nginx metrics
+- nginx:80/metrics # Laravel app metrics
 ```
 
-## 📝 Laravel Metrics Endpoint
+## 📝 Laravel Metrics Endpoints
 
-Metrics tersedia di: `http://localhost:8000/metrics`
+Metrics are available at: `http://localhost:8000/metrics`
 
 ### Sample Metrics Output:
 ```
 # HELP laravel_app_http_requests_total Total HTTP requests
-# TYPE laravel_app_http_requests_total counter
+# TYPE laravel_app_http_requests_total counters
 laravel_app_http_requests_total{method="GET",endpoint="/",status_code="200"} 42
 
 # HELP laravel_app_http_request_duration_seconds HTTP request duration in seconds
@@ -153,7 +153,6 @@ laravel_app_memory_usage_bytes 12582912
 ```
 
 ## 🔍 Monitoring Use Cases
-
 ### 1. Performance Monitoring
 - Track response times per endpoint
 - Identify slow queries
@@ -168,87 +167,87 @@ laravel_app_memory_usage_bytes 12582912
 
 ### 3. Troubleshooting
 - Correlate metrics during incidents
-- Identify resource contention
+- Identify resource content
 - Track error rates
 - Monitor container health
 
 ### 4. SLA Monitoring
 - Track uptime
 - Monitor response time SLOs
-- Alert on threshold breaches
+- Alerts on threshold breaches
 - Generate availability reports
 
-## 🎯 Custom Metrics di Laravel
+## 🎯 Custom Metrics in Laravel
 
-Anda bisa menambahkan custom metrics di aplikasi Laravel:
+You can add custom metrics in your Laravel application:
 
 ```php
 use Prometheus\CollectorRegistry;
 
-// Di Controller atau Service
+// In Controller or Service
 $registry = app('prometheus');
 
 // Counter example
-$counter = $registry->getOrRegisterCounter(
-    'laravel_app',
-    'user_registrations_total',
-    'Total user registrations',
-    ['source']
+$counter = $registry->getOrRegisterCounter( 
+'laravel_app', 
+'user_registrations_total', 
+'Total user registrations', 
+['source']
 );
 $counter->inc(['web']);
 
 // Gauge example
-$gauge = $registry->getOrRegisterGauge(
-    'laravel_app',
-    'active_sessions',
-    'Number of active sessions'
+$gauge = $registry->getOrRegisterGauge( 
+'laravel_app', 
+'active_sessions', 
+'Number of active sessions'
 );
 $gauge->set(Session::all()->count());
 
 // Histogram example
-$histogram = $registry->getOrRegisterHistogram(
-    'laravel_app',
-    'order_value',
-    'Order value distribution',
-    ['currency'],
-    [10, 50, 100, 500, 1000]
+$histogram = $registry->getOrRegisterHistogram( 
+'laravel_app', 
+'order_value', 
+'Order value distribution', 
+['currency'], 
+[10, 50, 100, 500, 1000]
 );
 $histogram->observe(299.99, ['USD']);
 ```
 
 ## 🛠️ Troubleshooting
 
-### Container tidak start:
+### Container won't start:
 ```bash
 # Check logs
 docker-compose logs [service-name]
 
-# Restart specific service
+# Restart specific services
 docker-compose restart [service-name]
 ```
 
-### Metrics tidak muncul:
+### Metrics not appearing:
 ```bash
 # Check Prometheus targets
-# Buka http://localhost:9090/targets
-# Pastikan semua targets "UP"
+# Open http://localhost:9090/targets
+# Ensure all targets "UP"
 
 # Test Laravel metrics
 curl http://localhost:8000/metrics
 ```
 
-### Grafana dashboard kosong:
+### Grafana blank dashboard:
 ```bash
-# Pastikan Prometheus datasource terkonfigurasi
-# Check di: Configuration > Data Sources
+# Ensure Prometheus datasource is configured
+# Check in: Configuration > Data Sources
 
-# Import dashboard manual jika perlu
+# Import dashboard manually if needed
 # Import ID: laravel-monitoring
 ```
 
 ### Memory issues:
 ```bash
-# Increase Docker memory limit di Docker Desktop
+# Increase Docker memory limit in Docker Desktop
 # Settings > Resources > Memory
 
 # Clear Laravel cache
@@ -258,7 +257,7 @@ docker-compose exec app php artisan config:clear
 
 ## 📈 Best Practices
 
-1. **Set Alerts** - Gunakan Grafana Alerting untuk notifikasi
+1. **Set Alerts** - Use Grafana Alerting for notifications
 2. **Regular Backups** - Backup Grafana dashboards & Prometheus data
 3. **Retention Policy** - Configure Prometheus data retention
 4. **Security** - Change default passwords
@@ -268,7 +267,7 @@ docker-compose exec app php artisan config:clear
 
 ⚠️ **IMPORTANT for Production:**
 
-1. Change default Grafana password
+1. Change the default Grafana password
 2. Add authentication to metrics endpoints
 3. Use HTTPS/TLS
 4. Configure firewall rules
@@ -285,7 +284,7 @@ docker-compose exec app php artisan config:clear
 
 ## 🤝 Support
 
-Jika ada pertanyaan atau issue:
+If you have questions or issues:
 1. Check logs: `docker-compose logs -f`
 2. Verify all services running: `docker-compose ps`
 3. Test endpoints individually
