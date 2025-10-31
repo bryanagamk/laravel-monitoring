@@ -1,0 +1,7 @@
+app/vendor/
+app/node_modules/
+app/.env
+app/storage/logs/*.log
+mysql-data/
+prometheus-data/
+grafana-data/

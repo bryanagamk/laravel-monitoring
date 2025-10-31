@@ -1,0 +1,47 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'laravel-monitor'
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node Exporter - System metrics (CPU, Memory, Disk, Network, Load Average)
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+        labels:
+          instance: 'laravel-server'
+
+  # cAdvisor - Container metrics (CPU, Memory, Network per container)
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
+        labels:
+          instance: 'laravel-containers'
+
+  # MySQL Exporter - Database metrics
+  - job_name: 'mysql'
+    static_configs:
+      - targets: ['mysql-exporter:9104']
+        labels:
+          instance: 'laravel-mysql'
+
+  # Nginx Exporter - Web server metrics
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+        labels:
+          instance: 'laravel-nginx'
+
+  # Laravel App - Application metrics
+  - job_name: 'laravel-app'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['nginx:80']
+        labels:
+          instance: 'laravel-application'
