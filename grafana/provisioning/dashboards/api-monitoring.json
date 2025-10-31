@@ -79,7 +79,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "third_party_api_up{api_name=\"dummyjson\"}",
+          "expr": "laravel_app_third_party_api_up{api_name=\"dummyjson\"}",
           "refId": "A"
         }
       ],
@@ -139,7 +139,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(rate(third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"}[5m])) / sum(rate(third_party_api_health_checks_total{api_name=\"dummyjson\"}[5m])) * 100",
+          "expr": "sum(rate(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"}[5m])) / sum(rate(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\"}[5m])) * 100",
           "legendFormat": "Uptime %",
           "refId": "A"
         }
@@ -218,7 +218,7 @@
       },
       "targets": [
         {
-          "expr": "third_party_api_response_time_ms{api_name=\"dummyjson\"}",
+          "expr": "laravel_app_third_party_api_response_time_ms{api_name=\"dummyjson\"}",
           "legendFormat": "Response Time",
           "refId": "A"
         }
@@ -292,12 +292,12 @@
       },
       "targets": [
         {
-          "expr": "rate(third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"}[5m])",
+          "expr": "rate(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"}[5m])",
           "legendFormat": "Success Rate",
           "refId": "A"
         },
         {
-          "expr": "rate(third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"down\"}[5m])",
+          "expr": "rate(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"down\"}[5m])",
           "legendFormat": "Failure Rate",
           "refId": "B"
         }
@@ -355,7 +355,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "third_party_api_response_time_ms{api_name=\"dummyjson\"}",
+          "expr": "laravel_app_third_party_api_response_time_ms{api_name=\"dummyjson\"}",
           "legendFormat": "Current Response Time",
           "refId": "A"
         }
@@ -407,7 +407,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(third_party_api_health_checks_total{api_name=\"dummyjson\"})",
+          "expr": "sum(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\"})",
           "legendFormat": "Total Checks",
           "refId": "A"
         }
@@ -459,7 +459,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"})",
+          "expr": "sum(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"up\"})",
           "legendFormat": "Successful Checks",
           "refId": "A"
         }
@@ -515,7 +515,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "sum(third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"down\"})",
+          "expr": "sum(laravel_app_third_party_api_health_checks_total{api_name=\"dummyjson\",status=\"down\"})",
           "legendFormat": "Failed Checks",
           "refId": "A"
         }
@@ -579,7 +579,7 @@
       "pluginVersion": "8.0.0",
       "targets": [
         {
-          "expr": "third_party_api_status_code{api_name=\"dummyjson\"}",
+          "expr": "laravel_app_third_party_api_status_code{api_name=\"dummyjson\"}",
           "legendFormat": "HTTP Status Code",
           "refId": "A"
         }
@@ -654,7 +654,7 @@
       },
       "targets": [
         {
-          "expr": "third_party_api_up{api_name=\"dummyjson\"}",
+          "expr": "laravel_app_third_party_api_up{api_name=\"dummyjson\"}",
           "legendFormat": "API Status (1=up, 0=down)",
           "refId": "A"
         }
