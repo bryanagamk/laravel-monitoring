@@ -127,7 +127,37 @@ open http://localhost:3000
 
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide & usage
 - **[MONITORING.md](MONITORING.md)** - Detailed monitoring documentation
+- **[LOAD-TESTING.md](LOAD-TESTING.md)** - Load testing guide with 6 different approaches
 - **[README.md](README.md)** - This file (setup & installation)
+
+## 🔥 Load Testing
+
+Project ini dilengkapi dengan 6 level load testing scripts:
+
+| Level | Tool | Complexity | Best For |
+|-------|------|------------|----------|
+| 1 | Simple Curl | ⭐ | Quick test, debugging |
+| 2 | Parallel Curl | ⭐⭐ | Medium load, CI/CD |
+| 3 | Apache Bench | ⭐⭐ | Benchmarking |
+| 4 | Python Asyncio | ⭐⭐⭐ | Custom scenarios |
+| 5 | K6 | ⭐⭐⭐⭐ | Production testing |
+| 6 | Locust | ⭐⭐⭐⭐⭐ | Distributed testing |
+
+### Quick Load Test:
+
+```bash
+# Simple test (100 requests)
+./loadtest/01-simple-curl.sh
+
+# Production-grade test with k6
+k6 run loadtest/05-k6-load-test.js
+
+# Distributed test with Web UI
+locust -f loadtest/06-locust-test.py --host=http://localhost:8000
+# Open: http://localhost:8089
+```
+
+**Lihat dokumentasi lengkap:** [LOAD-TESTING.md](LOAD-TESTING.md)
 
 ## Perintah Docker Useful
 

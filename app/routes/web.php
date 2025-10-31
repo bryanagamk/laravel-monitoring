@@ -20,3 +20,14 @@ Route::get('/', function () {
 
 // Prometheus Metrics Endpoint
 Route::get('/metrics', 'MetricsController');
+
+// Load Testing Endpoints
+Route::prefix('test')->group(function () {
+    Route::get('/simple', 'LoadTestController@simple');
+    Route::get('/cpu', 'LoadTestController@cpuIntensive');
+    Route::get('/memory', 'LoadTestController@memoryIntensive');
+    Route::get('/database', 'LoadTestController@database');
+    Route::get('/cache', 'LoadTestController@cache');
+    Route::get('/mixed', 'LoadTestController@mixed');
+    Route::get('/slow', 'LoadTestController@slow');
+});
