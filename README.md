@@ -128,6 +128,7 @@ open http://localhost:3000
 - **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide & usage
 - **[MONITORING.md](MONITORING.md)** - Detailed monitoring documentation
 - **[LOAD-TESTING.md](LOAD-TESTING.md)** - Load testing guide with 6 different approaches
+- **[PRODUCTS-API.md](PRODUCTS-API.md)** - DummyJSON Products API integration guide
 - **[README.md](README.md)** - This file (setup & installation)
 
 ## 🔥 Load Testing
@@ -158,6 +159,47 @@ locust -f loadtest/06-locust-test.py --host=http://localhost:8000
 ```
 
 **Lihat dokumentasi lengkap:** [LOAD-TESTING.md](LOAD-TESTING.md)
+
+## 🛍️ Products API Integration
+
+Project ini sudah terintegrasi dengan **DummyJSON Products API** yang memungkinkan:
+- ✅ Fetch products dari external API
+- ✅ Sync & save ke database lokal
+- ✅ RESTful API endpoints (list, detail, categories, stats)
+- ✅ Filtering, pagination, dan search
+- ✅ Artisan command untuk sync
+
+### Quick Start:
+
+```bash
+# Sync all products dari DummyJSON
+docker-compose exec app php artisan products:sync
+
+# Sync single product
+docker-compose exec app php artisan products:sync --id=1
+
+# Get products via API
+curl http://localhost:8000/api/products | jq
+
+# Get statistics
+curl http://localhost:8000/api/products/stats | jq
+
+# Get categories
+curl http://localhost:8000/api/products/categories | jq
+```
+
+### API Endpoints:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/products` | List all products (with pagination) |
+| GET | `/api/products/{id}` | Get product detail |
+| GET | `/api/products/categories` | Get all categories |
+| GET | `/api/products/stats` | Get product statistics |
+| POST | `/api/products/sync` | Sync all products from DummyJSON |
+| POST | `/api/products/sync/{apiId}` | Sync single product |
+
+**Lihat dokumentasi lengkap:** [PRODUCTS-API.md](PRODUCTS-API.md)
 
 ## Perintah Docker Useful
 

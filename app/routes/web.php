@@ -31,3 +31,13 @@ Route::prefix('test')->group(function () {
     Route::get('/mixed', 'LoadTestController@mixed');
     Route::get('/slow', 'LoadTestController@slow');
 });
+
+// Products API Endpoints
+Route::prefix('api/products')->group(function () {
+    Route::get('/', 'ProductController@index');
+    Route::get('/categories', 'ProductController@categories');
+    Route::get('/stats', 'ProductController@stats');
+    Route::get('/{id}', 'ProductController@show');
+    Route::post('/sync', 'ProductController@sync');
+    Route::post('/sync/{apiId}', 'ProductController@syncOne');
+});
